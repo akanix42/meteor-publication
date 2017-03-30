@@ -1,5 +1,4 @@
 import { Meteor } from './meteor-import';
-import meteorSubscribe from './meteor-call-with-promise';
 
 const publications: { [name: string]: AbstractPublication<any>; } = {};
 export { publications };

@@ -1,5 +1,5 @@
 declare const publications: {
-    [name: string]: AbstractPublication<any>;
+    [name: string]: AbstractPublication<any, any>;
 };
 export { publications };
 export interface ISubscription {
@@ -7,31 +7,27 @@ export interface ISubscription {
     ready(): boolean;
     subscriptionId: string;
 }
-export declare abstract class AbstractPublication<T> {
+export declare abstract class AbstractPublication<T, TCollections> {
+    readonly collections: TCollections;
     name: string;
     methodToRun: (data?: T) => void;
-    constructor(name: string, methodToRun: (data?: T) => void);
+    constructor(name: string, methodToRun: (data?: T) => void, collections?: TCollections);
     subscribe(data?: T): ISubscription;
-    withData(data?: T): PublicationAndData<T>;
+    withData(data?: T): PublicationAndData<T, TCollections>;
 }
-export declare class PublicationAndData<TData> {
-    publication: AbstractPublication<TData>;
+export declare class PublicationAndData<TData, TCollections> {
+    publication: AbstractPublication<TData, TCollections>;
     private data;
-    constructor(publication: AbstractPublication<TData>, data?: TData);
+    constructor(publication: AbstractPublication<TData, TCollections>, data?: TData);
     subscribe(): ISubscription;
 }
-export declare class PublicationWithoutArgs<TResult> extends AbstractPublication<void> {
-    constructor(name: string, methodToRun: () => void);
+export declare class PublicationWithoutArgs<TResult, TCollections> extends AbstractPublication<void, TCollections> {
+    constructor(name: string, methodToRun: () => void, collections?: TCollections);
     subscribe(): ISubscription;
-    withData(): PublicationAndData<void>;
+    withData(): PublicationAndData<void, TCollections>;
 }
-export default class Publication<T> extends AbstractPublication<T> {
-    constructor(name: string, methodToRun: (data: T) => void);
+export default class Publication<T, TCollections> extends AbstractPublication<T, TCollections> {
+    constructor(name: string, methodToRun: (data: T) => void, collections?: TCollections);
     subscribe(data: T): ISubscription;
-    withData(data: T): PublicationAndData<T>;
+    withData(data: T): PublicationAndData<T, TCollections>;
 }
-export interface SomeThing {
-    (abc: string): void;
-}
-declare const x: SomeThing;
-export { x };

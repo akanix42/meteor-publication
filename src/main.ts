@@ -1,6 +1,6 @@
 import { Meteor } from './meteor-import';
 
-const publications: { [name: string]: AbstractPublication<any>; } = {};
+const publications: { [name: string]: AbstractPublication<any, any>; } = {};
 export { publications };
 
 
@@ -10,11 +10,11 @@ export interface ISubscription {
   subscriptionId: string;
 }
 
-export abstract class AbstractPublication<T> {
+export abstract class AbstractPublication<T, TCollections> {
   name: string;
   methodToRun: (data?: T) => void;
 
-  constructor(name: string, methodToRun: (data?: T) => void) {
+  constructor(name: string, methodToRun: (data?: T) => void, readonly collections?: TCollections) {
     this.name = name;
     this.methodToRun = methodToRun;
 
@@ -37,22 +37,22 @@ export abstract class AbstractPublication<T> {
       : Meteor.subscribe(this.name, data, options);
   }
 
-  withData(data?: T): PublicationAndData<T> {
+  withData(data?: T): PublicationAndData<T, TCollections> {
     return new PublicationAndData(this, data);
   }
 }
 
-export class PublicationAndData<TData> {
-  constructor(public publication: AbstractPublication<TData>, private data?: TData) { }
+export class PublicationAndData<TData, TCollections> {
+  constructor(public publication: AbstractPublication<TData, TCollections>, private data?: TData) { }
 
   subscribe(): ISubscription {
     return this.publication.subscribe(this.data);
   }
 }
 
-export class PublicationWithoutArgs<TResult> extends AbstractPublication<void> {
-  constructor(name: string, methodToRun: () => void) {
-    super(name, methodToRun);
+export class PublicationWithoutArgs<TResult, TCollections> extends AbstractPublication<void, TCollections> {
+  constructor(name: string, methodToRun: () => void, collections?: TCollections) {
+    super(name, methodToRun, collections);
   }
 
   subscribe() {
@@ -64,9 +64,9 @@ export class PublicationWithoutArgs<TResult> extends AbstractPublication<void> {
   }
 }
 
-export default class Publication<T> extends AbstractPublication<T> {
-  constructor(name: string, methodToRun: (data: T) => void) {
-    super(name, methodToRun);
+export default class Publication<T, TCollections> extends AbstractPublication<T, TCollections> {
+  constructor(name: string, methodToRun: (data: T) => void, collections?: TCollections) {
+    super(name, methodToRun, collections);
   }
 
   subscribe(data: T) {
@@ -77,13 +77,3 @@ export default class Publication<T> extends AbstractPublication<T> {
     return super.withData(data);
   }
 }
-
-export interface SomeThing {
-  (abc: string): void;
-}
-
-const x: SomeThing = function (abc: string) {
-  console.log(abc);
-}
-
-export { x }

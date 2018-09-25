@@ -14,7 +14,8 @@ var meteor_import_1 = require("./meteor-import");
 var publications = {};
 exports.publications = publications;
 var AbstractPublication = (function () {
-    function AbstractPublication(name, methodToRun) {
+    function AbstractPublication(name, methodToRun, collections) {
+        this.collections = collections;
         this.name = name;
         this.methodToRun = methodToRun;
         if (meteor_import_1.Meteor.isServer) {
@@ -53,8 +54,8 @@ var PublicationAndData = (function () {
 exports.PublicationAndData = PublicationAndData;
 var PublicationWithoutArgs = (function (_super) {
     __extends(PublicationWithoutArgs, _super);
-    function PublicationWithoutArgs(name, methodToRun) {
-        return _super.call(this, name, methodToRun) || this;
+    function PublicationWithoutArgs(name, methodToRun, collections) {
+        return _super.call(this, name, methodToRun, collections) || this;
     }
     PublicationWithoutArgs.prototype.subscribe = function () {
         return _super.prototype.subscribe.call(this);
@@ -67,8 +68,8 @@ var PublicationWithoutArgs = (function (_super) {
 exports.PublicationWithoutArgs = PublicationWithoutArgs;
 var Publication = (function (_super) {
     __extends(Publication, _super);
-    function Publication(name, methodToRun) {
-        return _super.call(this, name, methodToRun) || this;
+    function Publication(name, methodToRun, collections) {
+        return _super.call(this, name, methodToRun, collections) || this;
     }
     Publication.prototype.subscribe = function (data) {
         return _super.prototype.subscribe.call(this, data);
@@ -79,8 +80,4 @@ var Publication = (function (_super) {
     return Publication;
 }(AbstractPublication));
 exports.default = Publication;
-var x = function (abc) {
-    console.log(abc);
-};
-exports.x = x;
 //# sourceMappingURL=main.js.map

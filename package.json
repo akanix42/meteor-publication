@@ -1,6 +1,6 @@
 {
   "name": "meteor-publication",
-  "version": "0.0.2-beta.2",
+  "version": "0.0.3",
   "description": "Meteor pub/sub with objects instead of magic strings (with TypeScript definitions)",
   "repository": "nathantreid/meteor-publication",
   "main": "dist/main.js",

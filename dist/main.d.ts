@@ -8,20 +8,20 @@ export interface ISubscription {
     subscriptionId: string;
 }
 export declare abstract class AbstractPublication<T, TCollections> {
-    readonly collections: TCollections;
+    readonly collections?: TCollections | undefined;
     name: string;
     methodToRun: (data?: T) => void;
-    constructor(name: string, methodToRun: (data?: T) => void, collections?: TCollections);
+    constructor(name: string, methodToRun: (data?: T) => void, collections?: TCollections | undefined);
     subscribe(data?: T): ISubscription;
     withData(data?: T): PublicationAndData<T, TCollections>;
 }
 export declare class PublicationAndData<TData, TCollections> {
     publication: AbstractPublication<TData, TCollections>;
-    private data;
-    constructor(publication: AbstractPublication<TData, TCollections>, data?: TData);
+    private data?;
+    constructor(publication: AbstractPublication<TData, TCollections>, data?: TData | undefined);
     subscribe(): ISubscription;
 }
-export declare class PublicationWithoutArgs<TResult, TCollections> extends AbstractPublication<void, TCollections> {
+export declare class PublicationWithoutArgs<TCollections> extends AbstractPublication<void, TCollections> {
     constructor(name: string, methodToRun: () => void, collections?: TCollections);
     subscribe(): ISubscription;
     withData(): PublicationAndData<void, TCollections>;

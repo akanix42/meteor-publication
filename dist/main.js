@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var meteor_import_1 = require("./meteor-import");
 var publications = {};
 exports.publications = publications;
-var AbstractPublication = (function () {
+var AbstractPublication = /** @class */ (function () {
     function AbstractPublication(name, methodToRun, collections) {
         this.collections = collections;
         this.name = name;
@@ -41,7 +41,7 @@ var AbstractPublication = (function () {
     return AbstractPublication;
 }());
 exports.AbstractPublication = AbstractPublication;
-var PublicationAndData = (function () {
+var PublicationAndData = /** @class */ (function () {
     function PublicationAndData(publication, data) {
         this.publication = publication;
         this.data = data;
@@ -52,7 +52,7 @@ var PublicationAndData = (function () {
     return PublicationAndData;
 }());
 exports.PublicationAndData = PublicationAndData;
-var PublicationWithoutArgs = (function (_super) {
+var PublicationWithoutArgs = /** @class */ (function (_super) {
     __extends(PublicationWithoutArgs, _super);
     function PublicationWithoutArgs(name, methodToRun, collections) {
         return _super.call(this, name, methodToRun, collections) || this;
@@ -66,7 +66,7 @@ var PublicationWithoutArgs = (function (_super) {
     return PublicationWithoutArgs;
 }(AbstractPublication));
 exports.PublicationWithoutArgs = PublicationWithoutArgs;
-var Publication = (function (_super) {
+var Publication = /** @class */ (function (_super) {
     __extends(Publication, _super);
     function Publication(name, methodToRun, collections) {
         return _super.call(this, name, methodToRun, collections) || this;

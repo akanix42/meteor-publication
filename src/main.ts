@@ -50,7 +50,7 @@ export class PublicationAndData<TData, TCollections> {
   }
 }
 
-export class PublicationWithoutArgs<TResult, TCollections> extends AbstractPublication<void, TCollections> {
+export class PublicationWithoutArgs<TCollections> extends AbstractPublication<void, TCollections> {
   constructor(name: string, methodToRun: () => void, collections?: TCollections) {
     super(name, methodToRun, collections);
   }
